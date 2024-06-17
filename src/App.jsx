@@ -1,27 +1,20 @@
-import {  } from 'react'
-import { Link } from "react-router-dom";
-
-import './App.css'
+import { Route, Routes } from "react-router-dom";
+import { Navbar } from "./components/Navbar";
+import { Home, Rackets, Shoes, Accessories } from "./components/pages";
+import "./App.css";
 
 function App() {
   return (
     <div className="App">
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="rackets">Rackets</Link>
-          </li>
-          <li>
-            <Link to="shoes">Shoes</Link>
-          </li>
-        </ul>
-      </nav>
-
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/rackets" element={<Rackets />} />
+        <Route path="/shoes" element={<Shoes />} />
+        <Route path="/accessories" element={<Accessories />} />
+      </Routes>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

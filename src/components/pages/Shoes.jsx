@@ -1,9 +1,10 @@
-function Shoes() {
+export const Shoes = () => {
   return (
     <div>
-        SHOES
+      Shoes
     </div>
-  );
+  )
 }
+
 
 export default Shoes;
