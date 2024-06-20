@@ -1,5 +1,5 @@
 export * from "./Home"
-export * from "./Rackets"
-export * from "./Shoes"
-export * from "./Accessories"
+export * from "./Play"
+export * from "./Signup"
+export * from "./Login"
 
