@@ -2,6 +2,12 @@ import { Route, Routes } from "react-router-dom";
 import { Navbar } from "./components/Navbar";
 import { Home, Play, Signup, Login } from "./components/pages";
 import "./App.css";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/clerk-react";
 
 function App() {
   return (
@@ -13,6 +19,12 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
       </Routes>
+      <SignedOut>
+        <SignInButton />
+      </SignedOut>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
     </div>
   );
 }
