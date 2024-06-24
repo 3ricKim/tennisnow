@@ -23,7 +23,7 @@ export const Login = (props) => {
 
     if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
       setEmailError("Please enter a valid email");
-      return;
+      return;nn
     }
 
     if ("" === password) {
