@@ -1,79 +1,29 @@
-import "./Login.css";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import "./Login.css";
+// // import { useState } from "react";
+// // import { useNavigate } from "react-router-dom";
+// import { SignIn } from "@clerk/clerk-react";
 
-export const Login = (props) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+// export function Login() {
+//   return <SignIn path="/sign-in" />;
+// }
 
-  const navigate = useNavigate();
+// export default Login;
 
-  const onButtonClick = () => {
-    // Set initial error values to empty
-    setEmailError("");
-    setPasswordError("");
+import { SignIn } from "@clerk/clerk-react";
 
-    // Check if the user has entered both fields correctly
-    if ("" === email) {
-      setEmailError("Please enter your email");
-      return;
-    }
-
-    if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
-      setEmailError("Please enter a valid email");
-      return;
-    }
-
-    if ("" === password) {
-      setPasswordError("Please enter a password");
-      return;
-    }
-
-    if (password.length < 7) {
-      setPasswordError("The password must be 8 characters or longer");
-      return;
-    }
-  };
-
+export function Login() {
   return (
-    <div className={"mainContainer"}>
-      <div className={"titleContainer"}>
-        <div>Login</div>
-      </div>
-      <br />
-      <div className={"inputContainer"}>
-        <input
-          value={email}
-          placeholder="Email"
-          onChange={(ev) => setEmail(ev.target.value)}
-          className={"inputBox"}
-        />
-        <label className="errorLabel">{emailError}</label>
-      </div>
-      <br />
-      <div className={"inputContainer"}>
-        <input
-          value={password}
-          placeholder="Password"
-          onChange={(ev) => setPassword(ev.target.value)}
-          className={"inputBox"}
-        />
-        <label className="errorLabel">{passwordError}</label>
-      </div>
-      <br />
-      <div className={"inputContainer"}>
-        <input
-          className={"inputButton"}
-          type="button"
-          onClick={onButtonClick}
-          value={"Log in"}
-        />
-      </div>
-    </div>
-  );
-};
+    <SignIn
+      path="/login"
+      routing="path"
+      signUpUrl="/signup"
+      fallbackRedirectUrl="/" // Redirect to home after sign-in
+    />
+    // <RedirectToSignUp />
 
-// simple log in ui => redirect to home page once logged in
+  );
+}
+// enter skill level, age, username, etc
+
 export default Login;
+

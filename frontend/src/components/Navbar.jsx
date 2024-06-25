@@ -1,9 +1,11 @@
 import { NavLink, Link } from "react-router-dom";
 import { useState } from "react";
 import "./Navbar.css";
+// import { SignInButton, UserButton } from "@clerk/clerk-react";
 
 export const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  
   return (
     <nav>
       <Link to="/" id="home">

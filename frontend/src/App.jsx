@@ -2,29 +2,26 @@ import { Route, Routes } from "react-router-dom";
 import { Navbar } from "./components/Navbar";
 import { Home, Play, Signup, Login } from "./components/pages";
 import "./App.css";
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  UserButton,
-} from "@clerk/clerk-react";
+import { SignOutButton } from "@clerk/clerk-react";
 
 function App() {
   return (
     <div className="App">
+      <SignOutButton></SignOutButton>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/play" element={<Play />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+
       </Routes>
-      <SignedOut>
+      {/* <SignedOut>
         <SignInButton />
       </SignedOut>
       <SignedIn>
         <UserButton />
-      </SignedIn>
+      </SignedIn> */}
     </div>
   );
 }
