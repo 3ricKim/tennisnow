@@ -52,3 +52,17 @@ input[type='button'] {
   border-radius: 8px;
   cursor: pointer;
 }
+
+.cl-signUp-root {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cl-signIn-root {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

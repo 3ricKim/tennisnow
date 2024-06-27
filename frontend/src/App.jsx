@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { Navbar } from "./components/Navbar";
-import { Home, Play, Signup, Login } from "./components/pages";
+import { Home, Play, Signup, Login, About } from "./components/pages";
 import "./App.css";
 
 function App() {
@@ -12,14 +12,8 @@ function App() {
         <Route path="/play" element={<Play />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-
+        <Route path="/about" element={<About />} />
       </Routes>
-      {/* <SignedOut>
-        <SignInButton />
-      </SignedOut>
-      <SignedIn>
-        <UserButton />
-      </SignedIn> */}
     </div>
   );
 }

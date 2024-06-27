@@ -1,4 +1,5 @@
 import { SignUp } from "@clerk/clerk-react";
+import "../../index.css";
 
 export function Signup() {
   return (
@@ -8,8 +9,6 @@ export function Signup() {
       signInUrl="/login"
       fallbackRedirectUrl="/" // Redirect to home after sign-up
     />
-    // <RedirectToSignUp />
-
   );
 }
 // enter skill level, age, username, etc
