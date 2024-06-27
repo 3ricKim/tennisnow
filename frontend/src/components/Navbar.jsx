@@ -1,11 +1,12 @@
 import { NavLink, Link } from "react-router-dom";
 import { useState } from "react";
 import "./Navbar.css";
+import { SignedOut, SignedIn, UserButton } from "@clerk/clerk-react";
 // import { SignInButton, UserButton } from "@clerk/clerk-react";
 
 export const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  
+
   return (
     <nav>
       <Link to="/" id="home">
@@ -29,7 +30,14 @@ export const Navbar = () => {
           <NavLink to="/signup">Sign Up</NavLink>
         </li>
         <li>
-          <NavLink to="/login">Log In</NavLink>
+          <SignedOut>
+            <NavLink to="/login">Log In</NavLink>
+          </SignedOut>
+          <div className="userprofile">
+            <SignedIn>
+              <UserButton>User</UserButton>
+            </SignedIn>
+          </div>
         </li>
       </ul>
     </nav>

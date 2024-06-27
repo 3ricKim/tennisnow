@@ -1,14 +1,3 @@
-// import "./Login.css";
-// // import { useState } from "react";
-// // import { useNavigate } from "react-router-dom";
-// import { SignIn } from "@clerk/clerk-react";
-
-// export function Login() {
-//   return <SignIn path="/sign-in" />;
-// }
-
-// export default Login;
-
 import { SignIn } from "@clerk/clerk-react";
 
 export function Login() {
@@ -23,7 +12,6 @@ export function Login() {
 
   );
 }
-// enter skill level, age, username, etc
 
 export default Login;
 

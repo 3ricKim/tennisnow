@@ -2,12 +2,10 @@ import { Route, Routes } from "react-router-dom";
 import { Navbar } from "./components/Navbar";
 import { Home, Play, Signup, Login } from "./components/pages";
 import "./App.css";
-import { SignOutButton } from "@clerk/clerk-react";
 
 function App() {
   return (
     <div className="App">
-      <SignOutButton></SignOutButton>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
