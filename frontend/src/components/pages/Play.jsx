@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { Map } from "@vis.gl/react-google-maps";
-
+import MapMarkers from "./MapMarkers"; // Adjust path as needed
 import "./Play.css";
+
+const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLEMAP_APIKEY;
 
 export const Play = () => {
   const [value, setValue] = useState(() => {
@@ -16,30 +17,23 @@ export const Play = () => {
     console.log("Current date value:", value);
   }, [value]);
 
+  if (!GOOGLE_MAPS_API_KEY) {
+    throw new Error("Missing Google Map API Key");
+  }
+
   return (
     <div className="play-container">
       <header>
         <h3>Choose a Date and Location</h3>
       </header>
-      <div className="calandar-container">
+      <div className="calendar-container">
         <Calendar onChange={setValue} value={value} />
       </div>
       <div className="map-container">
-        <Map
-          defaultZoom={13}
-          defaultCenter={{ lat: -33.860664, lng: 151.208138 }}
-          onCameraChanged={(ev) => {
-            console.log(
-              "camera changed:",
-              ev.detail.center,
-              "zoom:",
-              ev.detail.zoom
-            );
-          }}
-        ></Map>
+        <MapMarkers apiKey={GOOGLE_MAPS_API_KEY} />
       </div>
     </div>
   );
 };
-// features for meeting casual player, finding/hosting tournament, finding court
+
 export default Play;
