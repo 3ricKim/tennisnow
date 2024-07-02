@@ -2,7 +2,6 @@ import { NavLink, Link } from "react-router-dom";
 import { useState } from "react";
 import "./Navbar.css";
 import { SignedOut, SignedIn, UserButton } from "@clerk/clerk-react";
-// import { SignInButton, UserButton } from "@clerk/clerk-react";
 
 export const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -40,7 +39,7 @@ export const Navbar = () => {
           </SignedOut>
           <div className="userprofile">
             <SignedIn>
-              <UserButton>User</UserButton>
+              <UserButton></UserButton>
             </SignedIn>
           </div>
         </li>

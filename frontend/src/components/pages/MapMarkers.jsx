@@ -5,10 +5,12 @@ export const MapMarkers = ({ apiKey }) => {
   const mapRef = useRef(null);
 
   useEffect(() => {
-    const initMap = () => {
+    async function initMap() {
       try {
         const defaultLocation = { lat: 33.7756, lng: -84.3963 };
-        const map = new window.google.maps.Map(mapRef.current, {
+        const { Map } = await window.google.maps.importLibrary("maps");
+
+        const map = new Map(mapRef.current, {
           center: defaultLocation,
           zoom: 12,
         });
