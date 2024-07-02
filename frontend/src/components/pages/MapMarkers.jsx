@@ -8,13 +8,17 @@ export const MapMarkers = ({ apiKey }) => {
     async function initMap() {
       try {
         const defaultLocation = { lat: 33.7756, lng: -84.3963 };
+
         const { Map } = await window.google.maps.importLibrary("maps");
+        const { AdvancedMarkerElement } =
+          await window.google.maps.importLibrary("marker");
 
         const map = new Map(mapRef.current, {
           center: defaultLocation,
           zoom: 12,
+          mapId: "MAP_ID",
         });
-  
+
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -23,7 +27,7 @@ export const MapMarkers = ({ apiKey }) => {
                 lng: position.coords.longitude,
               };
               map.setCenter(userLocation);
-  
+
               const service = new window.google.maps.places.PlacesService(map);
               const request = {
                 location: userLocation,
@@ -31,9 +35,11 @@ export const MapMarkers = ({ apiKey }) => {
                 keyword: "tennis court",
                 type: ["establishment"],
               };
-  
+
               service.nearbySearch(request, (results, status) => {
-                if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+                if (
+                  status === window.google.maps.places.PlacesServiceStatus.OK
+                ) {
                   for (let i = 0; i < results.length; i++) {
                     createMarker(results[i]);
                   }
@@ -51,10 +57,10 @@ export const MapMarkers = ({ apiKey }) => {
           console.error("Geolocation is not supported by this browser.");
           map.setCenter(defaultLocation);
         }
-  
+
         const createMarker = (place) => {
           if (place.geometry && place.geometry.location) {
-            new window.google.maps.Marker({
+            new AdvancedMarkerElement({
               map,
               position: place.geometry.location,
               title: place.name,
@@ -66,16 +72,14 @@ export const MapMarkers = ({ apiKey }) => {
       } catch (error) {
         console.error("Error initializing the map:", error);
       }
-    };
-  
-    // Initialize the map immediately since the script is already loaded
+    }
+
     if (window.google && window.google.maps) {
       initMap();
     } else {
       console.error("Google Maps API not loaded.");
     }
   }, [apiKey]);
-  
 
   return <div ref={mapRef} style={{ height: "100%", width: "100%" }} />;
 };
