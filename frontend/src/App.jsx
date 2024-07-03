@@ -4,6 +4,7 @@ import { Home, Play, Signup, Login, About } from "./components/pages";
 import "./App.css";
 
 function App() {
+  
   return (
     <div className="App">
       <Navbar />

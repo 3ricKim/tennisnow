@@ -32,6 +32,7 @@ export const Play = () => {
       <div className="map-container">
         <MapMarkers apiKey={GOOGLE_MAPS_API_KEY} />
       </div>
+      <button onClick={()=>console.log("HI" + value)}>Find a Partner</button>
     </div>
   );
 };

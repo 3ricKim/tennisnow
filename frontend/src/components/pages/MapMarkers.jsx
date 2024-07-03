@@ -9,7 +9,7 @@ export const MapMarkers = ({ apiKey }) => {
       try {
         const defaultLocation = { lat: 33.7756, lng: -84.3963 };
 
-        const { Map } = await window.google.maps.importLibrary("maps");
+        const { Map, InfoWindow } = await window.google.maps.importLibrary("maps");
         const { AdvancedMarkerElement } =
           await window.google.maps.importLibrary("marker");
 
@@ -57,13 +57,23 @@ export const MapMarkers = ({ apiKey }) => {
           console.error("Geolocation is not supported by this browser.");
           map.setCenter(defaultLocation);
         }
+        const infoWindow = new InfoWindow();
 
         const createMarker = (place) => {
           if (place.geometry && place.geometry.location) {
-            new AdvancedMarkerElement({
+            const marker = new AdvancedMarkerElement({
               map,
               position: place.geometry.location,
               title: place.name,
+              gmpClickable: true,
+            });
+            // Add a click listener for each marker, and set up the info window.
+            marker.addListener("click", () => {
+              // const { target } = domEvent;
+              // { domEvent, latLng } in ()
+              infoWindow.close();
+              infoWindow.setContent(marker.title);
+              infoWindow.open(marker.map, marker);
             });
           } else {
             console.error("Invalid place object:", place);
