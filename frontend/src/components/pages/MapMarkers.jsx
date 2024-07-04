@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 
-export const MapMarkers = ({ apiKey }) => {
+const MapMarkers = ({ apiKey }) => {
   const mapRef = useRef(null);
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export const MapMarkers = ({ apiKey }) => {
         const infoWindow = new InfoWindow();
 
         const createMarker = (place) => {
-          if (place.geometry && place.geometry.location) {
+          if (place.geometry && place.geometry.location && place.title != "Теннисный корт") {
             const marker = new AdvancedMarkerElement({
               map,
               position: place.geometry.location,
@@ -74,6 +74,7 @@ export const MapMarkers = ({ apiKey }) => {
               infoWindow.close();
               infoWindow.setContent(marker.title);
               infoWindow.open(marker.map, marker);
+              console.log(marker.title);
             });
           } else {
             console.error("Invalid place object:", place);
