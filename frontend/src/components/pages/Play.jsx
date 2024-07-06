@@ -3,8 +3,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import MapMarkers from "./MapMarkers"; // Adjust path as needed
 import "./Play.css";
-
-const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLEMAP_APIKEY;
+import { GOOGLEMAP_KEY } from "../../../config";
 
 export const Play = () => {
   const [value, setValue] = useState(() => {
@@ -17,10 +16,6 @@ export const Play = () => {
     console.log("Current date value:", value);
   }, [value]);
 
-  if (!GOOGLE_MAPS_API_KEY) {
-    throw new Error("Missing Google Map API Key");
-  }
-
   return (
     <div className="play-container">
       <header>
@@ -30,7 +25,7 @@ export const Play = () => {
         <Calendar onChange={setValue} value={value} />
       </div>
       <div className="map-container">
-        <MapMarkers apiKey={GOOGLE_MAPS_API_KEY} />
+        <MapMarkers apiKey={GOOGLEMAP_KEY} />
       </div>
       <button onClick={()=>console.log("HI" + value)}>Find a Partner</button>
     </div>
