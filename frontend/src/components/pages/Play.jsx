@@ -16,15 +16,42 @@ export const Play = () => {
 
   useEffect(() => {
     localStorage.setItem("selectedDate", datevalue.toISOString());
-    console.log("Current date value:", datevalue);
   }, [datevalue]);
+
+  const saveToDatabase = async (data) => {
+    try {
+      const response = await fetch("http://localhost:3000/add-courtrequest", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+      console.log("Success:", result);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   const handleFind = () => {
     if (markers.title === undefined) {
-      console.log("Please select a valid location")
+      console.log("Please select a valid location");
     } else if (!datevalue) {
-      console.log("Please select a valid date")
+      console.log("Please select a valid date");
+    } else if (datevalue < new Date()) {
+      console.log("Selected date has passed");
     } else {
+      const data = {
+        username: "YourUsername",
+        location: {
+          title: markers.title,
+          latitude: markers.position.lat,
+          longitude: markers.position.lng,
+        },
+        date: datevalue.toISOString(),
+      };
+      saveToDatabase(data);
       console.log("You have selected " + markers.title + " for " + datevalue);
     }
   };
