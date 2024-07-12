@@ -9,7 +9,7 @@ const locationSchema = new Schema({
 
 const courtRequestSchema = new Schema(
   {
-    username: {
+    userid: {
       type: String,
       required: true,
     },

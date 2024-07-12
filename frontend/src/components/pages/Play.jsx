@@ -5,6 +5,7 @@ import "react-calendar/dist/Calendar.css";
 import MapMarkers from "./MapMarkers"; // Adjust path as needed
 import "./Play.css";
 import { GOOGLEMAP_KEY } from "../../../config";
+import { useUser } from "@clerk/clerk-react";
 
 export const Play = () => {
   const [datevalue, setDateValue] = useState(() => {
@@ -13,6 +14,7 @@ export const Play = () => {
   });
 
   const [markers, setMarkers] = useState({});
+  const { isSignedIn, user, isLoaded } = useUser();
 
   useEffect(() => {
     localStorage.setItem("selectedDate", datevalue.toISOString());
@@ -42,17 +44,21 @@ export const Play = () => {
     } else if (datevalue < new Date()) {
       console.log("Selected date has passed");
     } else {
-      const data = {
-        username: "YourUsername",
-        location: {
-          title: markers.title,
-          latitude: markers.position.lat,
-          longitude: markers.position.lng,
-        },
-        date: datevalue.toISOString(),
-      };
-      saveToDatabase(data);
-      console.log("You have selected " + markers.title + " for " + datevalue);
+      if (!isLoaded || !isSignedIn) {
+        console.log("Please log in");
+      } else {
+        const data = {
+          userid: user.id,
+          location: {
+            title: markers.title,
+            latitude: markers.position.lat,
+            longitude: markers.position.lng,
+          },
+          date: datevalue.toISOString(),
+        };
+        saveToDatabase(data);
+        console.log("You have selected " + markers.title + " for " + datevalue);
+      }
     }
   };
 
