@@ -1,8 +1,7 @@
-// Play.jsx
 import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import MapMarkers from "./MapMarkers"; // Adjust path as needed
+import MapMarkers from "./MapMarkers";
 import "./Play.css";
 import { GOOGLEMAP_KEY } from "../../../config";
 import { useUser } from "@clerk/clerk-react";
@@ -14,6 +13,8 @@ export const Play = () => {
   });
 
   const [markers, setMarkers] = useState({});
+  const [courtRequests, setCourtRequests] = useState([]);
+
   const { isSignedIn, user, isLoaded } = useUser();
 
   useEffect(() => {
@@ -36,8 +37,18 @@ export const Play = () => {
     }
   };
 
+  const searchCourtRequests = async (date) => {
+    try {
+      const response = await fetch(`http://localhost:3000/search-courtrequest?date=${date.toISOString()}`);
+      const result = await response.json();
+      setCourtRequests(result);
+    } catch (error) {
+      console.error("Error fetching court requests:", error);
+    }
+  };
+
   const handleFind = () => {
-    if (markers.title === undefined) {
+    if (!markers.title) {
       console.log("Please select a valid location");
     } else if (!datevalue) {
       console.log("Please select a valid date");
@@ -57,6 +68,7 @@ export const Play = () => {
           date: datevalue.toISOString(),
         };
         saveToDatabase(data);
+        searchCourtRequests(datevalue);
         console.log("You have selected " + markers.title + " for " + datevalue);
       }
     }
@@ -74,6 +86,16 @@ export const Play = () => {
         <MapMarkers apiKey={GOOGLEMAP_KEY} setMarkers={setMarkers} />
       </div>
       <button onClick={handleFind}>Find a Partner</button>
+      <div>
+        <h3>Court Requests on {datevalue.toDateString()}</h3>
+        <ul>
+          {courtRequests.map((request) => (
+            <li key={request._id}>
+              Location: {request.location.title}, Date: {new Date(request.date).toDateString()}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

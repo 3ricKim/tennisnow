@@ -27,3 +27,17 @@ app.post("/add-courtrequest", (req, res) => {
       res.status(500).json({ error: "Failed to save court request" });
     });
 });
+
+app.get("/search-courtrequest", (req, res) => {
+  const { date } = req.query;
+  const searchDate = new Date(date);
+
+  CourtRequest.find({ date: searchDate })
+    .then((courtRequests) => {
+      res.status(200).json(courtRequests);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ error: "Failed to fetch court requests" });
+    });
+});
