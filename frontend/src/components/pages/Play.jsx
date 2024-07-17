@@ -16,6 +16,7 @@ export const Play = () => {
   const [courtRequests, setCourtRequests] = useState([]);
 
   const { isSignedIn, user, isLoaded } = useUser();
+  const USER_ID_PLACEHOLDER = "TEMP_USER_ID1";
 
   useEffect(() => {
     localStorage.setItem("selectedDate", datevalue.toISOString());
@@ -39,7 +40,7 @@ export const Play = () => {
 
   const searchCourtRequests = async (date) => {
     try {
-      const response = await fetch(`http://localhost:3000/search-courtrequest?date=${date.toISOString()}`);
+      const response = await fetch(`http://localhost:3000/search-courtrequest?date=${date.toISOString()}&userId=${USER_ID_PLACEHOLDER}`);
       const result = await response.json();
       setCourtRequests(result);
     } catch (error) {
@@ -59,7 +60,8 @@ export const Play = () => {
         console.log("Please log in");
       } else {
         const data = {
-          userid: user.id,
+          // userid: user.id,
+          userid: USER_ID_PLACEHOLDER,
           location: {
             title: markers.title,
             latitude: markers.position.lat,

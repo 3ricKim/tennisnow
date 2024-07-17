@@ -29,10 +29,10 @@ app.post("/add-courtrequest", (req, res) => {
 });
 
 app.get("/search-courtrequest", (req, res) => {
-  const { date } = req.query;
+  const { date, userId } = req.query;
   const searchDate = new Date(date);
 
-  CourtRequest.find({ date: searchDate })
+  CourtRequest.find({ date: searchDate, userid: { $ne: userId } })
     .then((courtRequests) => {
       res.status(200).json(courtRequests);
     })
