@@ -6,6 +6,9 @@ import "./Play.css";
 import { GOOGLEMAP_KEY } from "../../../config";
 import { useUser } from "@clerk/clerk-react";
 
+import Box from "@mui/material/Box";
+import Slider from "@mui/material/Slider";
+
 export const Play = () => {
   const [datevalue, setDateValue] = useState(() => {
     const storedDate = localStorage.getItem("selectedDate");
@@ -14,6 +17,7 @@ export const Play = () => {
 
   const [markers, setMarkers] = useState({});
   const [courtRequests, setCourtRequests] = useState([]);
+  const [radius, setRadius] = useState(5);
 
   const { isSignedIn, user, isLoaded } = useUser();
   const USER_ID_PLACEHOLDER = "TEMP_USER_ID1";
@@ -80,6 +84,10 @@ export const Play = () => {
     }
   };
 
+  const handleSlider = (event, newRadius) => {
+      setRadius(newRadius);
+  }
+
   return (
     <div className="play-container">
       <header>
@@ -89,16 +97,27 @@ export const Play = () => {
         <Calendar onChange={setDateValue} value={datevalue} />
       </div>
       <div className="map-container">
-        <MapMarkers apiKey={GOOGLEMAP_KEY} setMarkers={setMarkers} />
+        <MapMarkers apiKey={GOOGLEMAP_KEY} setMarkers={setMarkers} distance = {radius}/>
       </div>
+      <Box sx={{ width: 300 }}>
+        <Slider
+          valueLabelDisplay="auto"
+          step={5}
+          min={5}
+          max={25}
+          defaultValue={5}
+          onChange={handleSlider}
+        ></Slider>
+      </Box>
+
       <button onClick={handleFind}>Find a Partner</button>
       <div>
-        <h3>Court Requests on {datevalue.toDateString()}</h3>
+        <h3>Court Requests on {datevalue.toDateString()} within {radius}km</h3>
         <ul>
           {courtRequests.map((request) => (
             <li key={request._id}>
               Location: {request.location.title}, Date:{" "}
-              {new Date(request.date).toDateString()}
+              {new Date(request.date).toDateString()}, User: {request.userid}
             </li>
           ))}
         </ul>

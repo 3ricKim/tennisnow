@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 
-const MapMarkers = ({ apiKey, setMarkers }) => {
+const MapMarkers = ({ apiKey, setMarkers, distance }) => {
   const mapRef = useRef(null);
 
   useEffect(() => {
@@ -10,8 +10,11 @@ const MapMarkers = ({ apiKey, setMarkers }) => {
       try {
         const defaultLocation = { lat: 33.7756, lng: -84.3963 };
 
-        const { Map, InfoWindow } = await window.google.maps.importLibrary("maps");
-        const { AdvancedMarkerElement } = await window.google.maps.importLibrary("marker");
+        const { Map, InfoWindow } = await window.google.maps.importLibrary(
+          "maps"
+        );
+        const { AdvancedMarkerElement } =
+          await window.google.maps.importLibrary("marker");
 
         const map = new Map(mapRef.current, {
           center: defaultLocation,
@@ -31,15 +34,19 @@ const MapMarkers = ({ apiKey, setMarkers }) => {
               const service = new window.google.maps.places.PlacesService(map);
               const request = {
                 location: userLocation,
-                radius: "5000",
+                radius: (distance * 1000).toString(),
                 keyword: "tennis court",
                 type: ["establishment"],
               };
 
               service.nearbySearch(request, (results, status) => {
-                if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+                if (
+                  status === window.google.maps.places.PlacesServiceStatus.OK
+                ) {
                   for (let i = 0; i < results.length; i++) {
-                    createMarker(results[i]);
+                    if (results[i].name !== "Теннисный корт") {
+                      createMarker(results[i]);
+                    }
                   }
                 } else {
                   console.error("PlacesServiceStatus Error:", status);
@@ -59,7 +66,10 @@ const MapMarkers = ({ apiKey, setMarkers }) => {
         const infoWindow = new InfoWindow();
 
         const createMarker = (place) => {
-          if (place.geometry && place.geometry.location && place.title !== "Теннисный корт") {
+          if (
+            place.geometry &&
+            place.geometry.location
+          ) {
             const marker = new AdvancedMarkerElement({
               map,
               position: place.geometry.location,
@@ -71,7 +81,7 @@ const MapMarkers = ({ apiKey, setMarkers }) => {
               infoWindow.close();
               infoWindow.setContent(marker.title);
               infoWindow.open(marker.map, marker);
-              setMarkers(marker)
+              setMarkers(marker);
             });
             return { title: marker.title, position: marker.position };
           } else {
@@ -89,7 +99,7 @@ const MapMarkers = ({ apiKey, setMarkers }) => {
     } else {
       console.error("Google Maps API not loaded.");
     }
-  }, [apiKey, setMarkers]);
+  }, [apiKey, setMarkers, distance]);
 
   return <div ref={mapRef} style={{ height: "100%", width: "100%" }} />;
 };
@@ -97,6 +107,7 @@ const MapMarkers = ({ apiKey, setMarkers }) => {
 MapMarkers.propTypes = {
   apiKey: PropTypes.string.isRequired,
   setMarkers: PropTypes.func.isRequired,
+  distance: PropTypes.number.isRequired,
 };
 
 export default MapMarkers;
