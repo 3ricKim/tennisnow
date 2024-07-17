@@ -40,7 +40,11 @@ export const Play = () => {
 
   const searchCourtRequests = async (date) => {
     try {
-      const response = await fetch(`http://localhost:3000/search-courtrequest?date=${date.toISOString()}&userId=${USER_ID_PLACEHOLDER}`);
+      const response = await fetch(
+        `http://localhost:3000/search-courtrequest?date=${date.toISOString()}&userId=${USER_ID_PLACEHOLDER}&latitude=${
+          markers.position.lat
+        }&longitude=${markers.position.lng}`
+      );
       const result = await response.json();
       setCourtRequests(result);
     } catch (error) {
@@ -93,7 +97,8 @@ export const Play = () => {
         <ul>
           {courtRequests.map((request) => (
             <li key={request._id}>
-              Location: {request.location.title}, Date: {new Date(request.date).toDateString()}
+              Location: {request.location.title}, Date:{" "}
+              {new Date(request.date).toDateString()}
             </li>
           ))}
         </ul>
