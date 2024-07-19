@@ -14,13 +14,12 @@ export const Play = () => {
     const storedDate = localStorage.getItem("selectedDate");
     return storedDate ? new Date(storedDate) : new Date();
   });
-
   const [markers, setMarkers] = useState({});
   const [courtRequests, setCourtRequests] = useState([]);
   const [radius, setRadius] = useState(5);
 
   const { isSignedIn, user, isLoaded } = useUser();
-  const USER_ID_PLACEHOLDER = "TEMP_USER_ID3";
+  const USER_ID_PLACEHOLDER = "TEMP_USER_ID";
 
   useEffect(() => {
     localStorage.setItem("selectedDate", datevalue.toISOString());
@@ -67,9 +66,11 @@ export const Play = () => {
       if (!isLoaded || !isSignedIn) {
         console.log("Please log in");
       } else {
+        console.log(typeof(user.primaryEmailAddress.emailAddress))
         const data = {
           // userid: user.id,
           userid: USER_ID_PLACEHOLDER,
+          useremail: user.primaryEmailAddress.emailAddress,
           location: {
             title: markers.title,
             latitude: markers.position.lat,
@@ -117,7 +118,7 @@ export const Play = () => {
           {courtRequests.map((request) => (
             <li key={request._id}>
               Location: {request.location.title}, Date:{" "}
-              {new Date(request.date).toDateString()}, User: {request.userid}
+              {new Date(request.date).toDateString()}, User: {request.userid}, Email: {request.useremail}
             </li>
           ))}
         </ul>

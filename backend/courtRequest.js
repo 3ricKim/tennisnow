@@ -13,14 +13,18 @@ const courtRequestSchema = new Schema(
       type: String,
       required: true,
     },
+    useremail: {
+      type: String,
+      required: true,
+    },
     location: {
-        type: locationSchema,
-        required: true,
+      type: locationSchema,
+      required: true,
     },
     date: {
-        type: Date,
-        required: true,
-    }
+      type: Date,
+      required: true,
+    },
   },
   { timestamps: true }
 );
