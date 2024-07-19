@@ -49,7 +49,7 @@ function deg2rad(deg) {
 }
 
 app.get("/search-courtrequest", async (req, res) => {
-  const { date, userId, latitude, longitude } = req.query;
+  const { date, userId, latitude, longitude, radius } = req.query;
   const searchDate = new Date(date);
 
   try {
@@ -65,7 +65,7 @@ app.get("/search-courtrequest", async (req, res) => {
         request.location.latitude, request.location.longitude
       );
 
-      return distance <= 5;
+      return distance <= radius;
     });
 
     res.status(200).json(filteredCourtRequests);

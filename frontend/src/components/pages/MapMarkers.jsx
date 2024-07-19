@@ -18,7 +18,7 @@ const MapMarkers = ({ apiKey, setMarkers, distance }) => {
 
         const map = new Map(mapRef.current, {
           center: defaultLocation,
-          zoom: 13 - Math.floor(distance / 10),
+          zoom: 13  - Math.floor(distance / 10),
           mapId: "MAP_ID",
         });
 

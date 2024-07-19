@@ -20,7 +20,7 @@ export const Play = () => {
   const [radius, setRadius] = useState(5);
 
   const { isSignedIn, user, isLoaded } = useUser();
-  const USER_ID_PLACEHOLDER = "TEMP_USER_ID1";
+  const USER_ID_PLACEHOLDER = "TEMP_USER_ID3";
 
   useEffect(() => {
     localStorage.setItem("selectedDate", datevalue.toISOString());
@@ -47,7 +47,7 @@ export const Play = () => {
       const response = await fetch(
         `http://localhost:3000/search-courtrequest?date=${date.toISOString()}&userId=${USER_ID_PLACEHOLDER}&latitude=${
           markers.position.lat
-        }&longitude=${markers.position.lng}`
+        }&longitude=${markers.position.lng}&radius=${radius}`
       );
       const result = await response.json();
       setCourtRequests(result);
