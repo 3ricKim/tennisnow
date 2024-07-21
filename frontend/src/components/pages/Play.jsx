@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+import "./Calendar.css";
 import MapMarkers from "./MapMarkers";
 import "./Play.css";
 import { GOOGLEMAP_KEY } from "../../../config";
@@ -66,7 +66,7 @@ export const Play = () => {
       if (!isLoaded || !isSignedIn) {
         console.log("Please log in");
       } else {
-        console.log(typeof(user.primaryEmailAddress.emailAddress))
+        console.log(typeof user.primaryEmailAddress.emailAddress);
         const data = {
           // userid: user.id,
           userid: USER_ID_PLACEHOLDER,
@@ -86,19 +86,23 @@ export const Play = () => {
   };
 
   const handleSlider = (event, newRadius) => {
-      setRadius(newRadius);
-  }
+    setRadius(newRadius);
+  };
 
   return (
     <div className="play-container">
-      <header>
+      <header className="header-container">
         <h3>Choose a Date and Location</h3>
       </header>
       <div className="calendar-container">
         <Calendar onChange={setDateValue} value={datevalue} />
       </div>
       <div className="map-container">
-        <MapMarkers apiKey={GOOGLEMAP_KEY} setMarkers={setMarkers} distance = {radius}/>
+        <MapMarkers
+          apiKey={GOOGLEMAP_KEY}
+          setMarkers={setMarkers}
+          distance={radius}
+        />
       </div>
       <Box sx={{ width: 300 }}>
         <Slider
@@ -111,14 +115,19 @@ export const Play = () => {
         ></Slider>
       </Box>
 
-      <button onClick={handleFind}>Find a Partner</button>
-      <div>
-        <h3>Court Requests on {datevalue.toDateString()} within {radius}km</h3>
+      <button onClick={handleFind} className="findbutton">
+        Find a Partner
+      </button>
+      <div className="courtrequest-header">
+        <h3>
+          Court Requests on {datevalue.toDateString()} within {radius}km
+        </h3>
         <ul>
           {courtRequests.map((request) => (
             <li key={request._id}>
               Location: {request.location.title}, Date:{" "}
-              {new Date(request.date).toDateString()}, User: {request.userid}, Email: {request.useremail}
+              {new Date(request.date).toDateString()}, User: {request.userid},
+              Email: {request.useremail}
             </li>
           ))}
         </ul>
