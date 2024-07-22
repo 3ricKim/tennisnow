@@ -1,23 +1,33 @@
 .map-container {
-    width: 100%;
-    height: 400px; /* Adjust height as needed */
-  }
+  width: 100%;
+  height: 400px;
+}
 
-  .header-container {
-    display:flex;
-    justify-content: center;
-  }
+.header-container {
+  display: flex;
+  justify-content: center;
+}
 
-  .calendar-container {
-    display: flex;
-    justify-content: center;
-  }
+.calendar-container {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
 
-  .map-container {
-    display: flex;
-    /* align-items: cennter; */
-    /* justify-content: center; */
-    margin-left: auto;
-    margin-right: auto;
-    width: 1000px;
-  }
+.map-container {
+  display: flex;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+  max-width: 1200px;
+}
+.controls-container {
+  position: absolute;
+  right: 10%;
+}
+
+.findbutton {
+  position: absolute;
+  right: 0%;
+}

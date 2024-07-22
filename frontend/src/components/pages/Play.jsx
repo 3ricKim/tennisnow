@@ -104,20 +104,22 @@ export const Play = () => {
           distance={radius}
         />
       </div>
-      <Box sx={{ width: 300 }}>
-        <Slider
-          valueLabelDisplay="auto"
-          step={5}
-          min={5}
-          max={25}
-          defaultValue={5}
-          onChange={handleSlider}
-        ></Slider>
-      </Box>
+      <div className="controls-container">
+        <Box sx={{ width: 300 }}>
+          <Slider
+            valueLabelDisplay="auto"
+            step={5}
+            min={5}
+            max={25}
+            defaultValue={5}
+            onChange={handleSlider}
+          ></Slider>
+        </Box>
+        <button onClick={handleFind} className="findbutton">
+          Find a Partner
+        </button>
+      </div>
 
-      <button onClick={handleFind} className="findbutton">
-        Find a Partner
-      </button>
       <div className="courtrequest-header">
         <h3>
           Court Requests on {datevalue.toDateString()} within {radius}km
