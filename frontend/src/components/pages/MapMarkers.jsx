@@ -18,7 +18,7 @@ const MapMarkers = ({ apiKey, setMarkers, distance }) => {
 
         const map = new Map(mapRef.current, {
           center: defaultLocation,
-          zoom: 13  - Math.floor(distance / 10),
+          zoom: 13 - Math.floor(distance / 10),
           mapId: "MAP_ID",
         });
 
@@ -66,10 +66,7 @@ const MapMarkers = ({ apiKey, setMarkers, distance }) => {
         const infoWindow = new InfoWindow();
 
         const createMarker = (place) => {
-          if (
-            place.geometry &&
-            place.geometry.location
-          ) {
+          if (place.geometry && place.geometry.location) {
             const marker = new AdvancedMarkerElement({
               map,
               position: place.geometry.location,
@@ -78,8 +75,13 @@ const MapMarkers = ({ apiKey, setMarkers, distance }) => {
             });
 
             marker.addListener("click", () => {
-              infoWindow.close();
-              infoWindow.setContent(marker.title);
+              const content = `
+                <div>
+                  <h3>${place.name}</h3>
+                  <p>${place.vicinity}</p>
+                </div>
+              `;
+              infoWindow.setContent(content);
               infoWindow.open(marker.map, marker);
               setMarkers(marker);
             });

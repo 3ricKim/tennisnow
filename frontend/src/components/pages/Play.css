@@ -4,8 +4,8 @@
 }
 
 .header-container {
-  display: flex;
-  justify-content: center;
+  display: block;
+  text-align: center;
   padding: 10px;
   font-size: 20px;
 }

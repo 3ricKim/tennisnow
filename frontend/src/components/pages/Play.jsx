@@ -17,9 +17,10 @@ export const Play = () => {
   const [markers, setMarkers] = useState({});
   const [courtRequests, setCourtRequests] = useState([]);
   const [radius, setRadius] = useState(5);
+  const [expandedLocation, setExpandedLocation] = useState(null);
 
   const { isSignedIn, user, isLoaded } = useUser();
-  const USER_ID_PLACEHOLDER = "TEMP_USER_ID";
+  const USER_ID_PLACEHOLDER = "TEMP_USER_ID2";
 
   useEffect(() => {
     localStorage.setItem("selectedDate", datevalue.toISOString());
@@ -54,7 +55,6 @@ export const Play = () => {
       console.error("Error fetching court requests:", error);
     }
   };
-
   const handleFind = () => {
     if (!markers.title) {
       console.log("Please select a valid location");
@@ -65,11 +65,13 @@ export const Play = () => {
     } else {
       if (!isLoaded || !isSignedIn) {
         console.log("Please log in");
+      } else if (!user.username) {
+        console.log("Create a username");
       } else {
         console.log(typeof user.primaryEmailAddress.emailAddress);
         const data = {
-          // userid: user.id,
           userid: USER_ID_PLACEHOLDER,
+          username: user.username,
           useremail: user.primaryEmailAddress.emailAddress,
           location: {
             title: markers.title,
@@ -89,10 +91,24 @@ export const Play = () => {
     setRadius(newRadius);
   };
 
+  const toggleLocation = (location) => {
+    setExpandedLocation(expandedLocation === location ? null : location);
+  };
+
+  // Group court requests by location
+  const groupedRequests = courtRequests.reduce((acc, request) => {
+    const location = request.location.title;
+    if (!acc[location]) {
+      acc[location] = [];
+    }
+    acc[location].push(request);
+    return acc;
+  }, {});
   return (
     <div className="play-container">
       <header className="header-container">
         <h3>Choose a Date and Location</h3>
+        <p>We&apos;ll find the perfect tennis partner for you</p>
       </header>
       <div className="calendar-container">
         <Calendar onChange={setDateValue} value={datevalue} />
@@ -105,9 +121,7 @@ export const Play = () => {
         />
       </div>
       <div className="controls-container">
-        <div id="courts-within">
-          Courts search radius (km):
-        </div>
+        <div id="courts-within">Courts search radius (km):</div>
         <Box sx={{ width: 300 }} className="slider-container">
           <Slider
             valueLabelDisplay="auto"
@@ -127,11 +141,20 @@ export const Play = () => {
           Court Requests on {datevalue.toDateString()} within {radius}km
         </h3>
         <ul>
-          {courtRequests.map((request) => (
-            <li key={request._id}>
-              Location: {request.location.title}, Date:{" "}
-              {new Date(request.date).toDateString()}, User: {request.userid},
-              Email: {request.useremail}
+          {Object.keys(groupedRequests).map((location) => (
+            <li key={location}>
+              <div onClick={() => toggleLocation(location)}>
+                Location: {location}
+              </div>
+              {expandedLocation === location && (
+                <ul>
+                  {groupedRequests[location].map((request) => (
+                    <li key={request._id}>
+                      User: {request.username}, Email: {request.useremail}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))}
         </ul>
