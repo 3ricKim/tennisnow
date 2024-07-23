@@ -9,6 +9,7 @@ nav {
     background-color: #0f172a;
     position: sticky;
     top: 0;
+    z-index: 5;
 }
 
 nav #home {
@@ -23,7 +24,6 @@ nav ul {
     display: flex;
 }
 
-/* get rid of bullet points */
 nav ul li {
     list-style: none;
 }

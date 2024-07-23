@@ -105,7 +105,10 @@ export const Play = () => {
         />
       </div>
       <div className="controls-container">
-        <Box sx={{ width: 300 }}>
+        <div id="courts-within">
+          Courts search radius (km):
+        </div>
+        <Box sx={{ width: 300 }} className="slider-container">
           <Slider
             valueLabelDisplay="auto"
             step={5}
@@ -119,8 +122,7 @@ export const Play = () => {
           Find a Partner
         </button>
       </div>
-
-      <div className="courtrequest-header">
+      <div className="courtrequests">
         <h3>
           Court Requests on {datevalue.toDateString()} within {radius}km
         </h3>
